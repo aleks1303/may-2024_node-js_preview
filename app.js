@@ -3,6 +3,7 @@ const app = express();
 
 const PORT = 5100;
 
+
 // звертаємось до app і задаємо, щоб вона приймала звернення
 app.get ('', () => {
     console.log('Hello World!');
