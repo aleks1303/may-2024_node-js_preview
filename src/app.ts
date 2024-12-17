@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import express from "express";
-import * as mongoose from "mongoose";
+// import * as mongoose from "mongoose";
 
 const app = express();
 
@@ -82,7 +82,7 @@ app.delete("/spongebob/:id", (req: Request, res: Response) => {
 });
 
 app.listen(PORT, () => {
-  mongoose.connect("localhost:27017/preview");
+  // mongoose.connect("localhost:27017/preview");
   console.log(`Server has started on PORT ${PORT}`);
 });
 
