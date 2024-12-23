@@ -10,7 +10,6 @@ const router = Router();
 // звертаємось до app і задаємо, щоб вона приймала звернення
 router.get("/", userController.findAll);
 
-
 // робимо post request на sponge bob
 router.post("/", (req: Request, res: Response) => {
   const user = req.body;
