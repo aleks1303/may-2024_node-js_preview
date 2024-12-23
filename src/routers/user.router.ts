@@ -1,15 +1,14 @@
 import { Request, Response, Router } from "express";
 
+import { userController } from "../controllers/user.controller";
 import { users } from "../db/users.db";
 
 const router = Router();
+// router - не займається бізнес-логікою
+// router - приймає і прокидує запити - цей метод називається контроллер
 
 // звертаємось до app і задаємо, щоб вона приймала звернення
-router.get("/", (req: Request, res: Response) => {
-  //щоб віддати клієнту якусь інформацію звертаємось до res
-  //     тут робиться запит (request) до db і при отриманні info виводимо
-  res.json(users);
-});
+router.get("/", userController.findAll);
 
 // робимо post request на sponge bob
 router.post("/", (req: Request, res: Response) => {
