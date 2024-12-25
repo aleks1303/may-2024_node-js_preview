@@ -1,6 +1,8 @@
 import express from "express";
+import { NextFunction, Request, Response } from "express";
 import * as mongoose from "mongoose";
 
+import { ErrorApi } from "./errors/error.api";
 import { userRouter } from "./routers/user_router";
 // import * as mongoose from "mongoose";
 
@@ -13,6 +15,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/users", userRouter);
+
+// в app описуємо перехопник помилок які прилітають з різних методів і рівнів
+// app використовую
+
+app.use((err: ErrorApi, req: Request, res: Response, next: NextFunction) => {
+  res.status(err?.status || 500).json({
+    massege: err.message,
+    status: err?.status || 500,
+  });
+});
+
 // звертаємось до app і задаємо, щоб вона приймала звернення
 const PORT = 5000;
 app.listen(PORT, () => {

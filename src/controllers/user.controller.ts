@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 import { users } from "../db/users.db";
 
@@ -9,8 +9,14 @@ import { users } from "../db/users.db";
 // }
 
 class UserController {
-  public async findAll(req: Request, res: Response) {
-    res.json(users);
+  public async findAll(req: Request, res: Response, next: NextFunction) {
+    try {
+      throw new Error("Something went wrong");
+    } catch (e) {
+      // next - викидуємо помилку на рівень вище, а це в app і там перехоплюємо
+      // це для того, щоб не описувати перехопник в кожному методі
+      next(e);
+    }
   }
   // тут не вийшо, вибиває помилку
   // код де може бути потенційна помилка
