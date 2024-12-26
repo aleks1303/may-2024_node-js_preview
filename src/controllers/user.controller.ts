@@ -1,17 +1,19 @@
 import { NextFunction, Request, Response } from "express";
 
 import { users } from "../db/users.db";
+import { userService } from "../services/user.service";
 
-// interface IUser {
-//   name: string;
-//   age: number;
-//   gender: string;
-// }
+export interface IUser {
+  name: string;
+  age: number;
+  gender: string;
+}
 
 class UserController {
   public async findAll(req: Request, res: Response, next: NextFunction) {
     try {
-      throw new Error("Something went wrong");
+      const createdUser = await userService.create(req.body);
+      res.status(201).json(createdUser);
     } catch (e) {
       // next - викидуємо помилку на рівень вище, а це в app і там перехоплюємо
       // це для того, щоб не описувати перехопник в кожному методі
@@ -41,8 +43,13 @@ class UserController {
     users.push(spongebob6);
     res.status(201).json({ message: "Sponge Bob female created" });
   }
-  public async updateById(req: Request, res: Response) {
-    console.log(req.params);
+  public async updateById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const updatedUser = await userService.updateById(req.params.id, req.body);
+      res.status(201).json(updatedUser);
+    } catch (e) {
+      next(e);
+    }
     const { id } = req.params;
     const updatedSpongeBobInfo = req.body;
 
@@ -52,14 +59,13 @@ class UserController {
       message: "Sponge Bob updated successfully",
     });
   }
-  public async delete(req: Request, res: Response) {
-    const { id } = req.params;
-
-    users.splice(+id, 1);
-
-    res.status(200).json({
-      message: "Sponge Bob deleted successfully",
-    });
+  public async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      const deleteUser = await userService.deletedById(req.params.id);
+      res.status(200).json(deleteUser);
+    } catch (e) {
+      next(e);
+    }
   }
 }
 export const userController = new UserController();
