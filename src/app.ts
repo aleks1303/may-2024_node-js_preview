@@ -17,6 +17,7 @@ app.use("/users", userRouter);
 // в app описуємо перехопник помилок які прилітають з різних методів і рівнів
 // app використовую
 
+
 app.use((err: ErrorApi, req: Request, res: Response, next: NextFunction) => {
   res.status(err?.status || 500).json({
     massege: err.message,
